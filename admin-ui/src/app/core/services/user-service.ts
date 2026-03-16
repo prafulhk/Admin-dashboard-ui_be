@@ -14,29 +14,25 @@ export interface User {
 })
 export class UserService {
   constructor(private http: HttpClient) {}
-  private users: User[] = [
-    // { name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active' },
-    // { name: 'Jane Smith', email: 'jane@example.com', role: 'Editor', status: 'Pending' },
-    // { name: 'Praful Lee', email: 'david@example.com', role: 'User', status: 'Active' },
-  ];
 
-  // getUsers(): Observable<User[]> {
-  //   return of([...this.users]).pipe(delay(500)); // simulate API delay
-  // }
+  private API = 'http://localhost:3000/api/users';
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('http://localhost:3000/api/users');
+    return this.http.get<User[]>(this.API);
   }
 
   addUser(user: User) {
-    this.users.push(user);
+    // this.users.push(user);
+    return this.http.post<User>(this.API, user);
   }
 
-  updateUser(index: number, user: User) {
-    this.users[index] = user;
+  updateUser(id: string, user: User) {
+    // this.users[index] = user;
+    return this.http.put<User>(`${this.API}/${id}`, user);
   }
 
-  deleteUser(index: number) {
-    this.users.splice(index, 1);
+  deleteUser(id: string) {
+    // this.users.splice(index, 1);
+    return this.http.delete(`${this.API}/${id}`);
   }
 }
