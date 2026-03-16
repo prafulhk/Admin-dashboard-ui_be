@@ -42,3 +42,5 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+admin-be/node_modules
+admin-ui/node_modules
