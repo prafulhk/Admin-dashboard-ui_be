@@ -7,13 +7,15 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { usersReducer } from './store/users/users.reducer';
 import { UsersEffects } from './store/users/users.effects';
+import { authReducer } from './store/auth/auth.reducer';
+import { AuthEffects } from './store/auth/auth.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideStore({ users: usersReducer }), // Ensure 'users' matches your selector key
-    provideEffects([UsersEffects]), // You can pass the class directly without the array [ ]
+    provideStore({ users: usersReducer, auth: authReducer }), // Ensure 'users' matches your selector key
+    provideEffects([UsersEffects, AuthEffects]), // You can pass the class directly without the array [ ]
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

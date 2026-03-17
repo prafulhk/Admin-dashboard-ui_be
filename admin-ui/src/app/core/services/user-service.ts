@@ -22,17 +22,14 @@ export class UserService {
   }
 
   addUser(user: User) {
-    // this.users.push(user);
     return this.http.post<User>(this.API, user);
   }
 
   updateUser(id: string, user: User) {
-    // this.users[index] = user;
     return this.http.put<User>(`${this.API}/${id}`, user);
   }
 
   deleteUser(id: string) {
-    // this.users.splice(index, 1);
     return this.http.delete(`${this.API}/${id}`);
   }
 }

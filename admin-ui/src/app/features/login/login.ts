@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,10 @@ export class Login {
   email = '';
   password = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private store: Store,
+  ) {}
 
   ngOnInit() {
     const token = localStorage.getItem('token');
@@ -24,9 +29,12 @@ export class Login {
 
   login() {
     if (this.email && this.password) {
-      localStorage.setItem('token', 'demo');
-
-      this.router.navigate(['/dashboard']);
+      this.store.dispatch(
+        AuthActions.login({
+          email: this.email,
+          password: this.password,
+        }),
+      );
     }
   }
 }
