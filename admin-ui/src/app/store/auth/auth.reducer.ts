@@ -15,7 +15,7 @@ export const authReducer = createReducer(
 
   on(AuthActions.loginFailure, (state, { error }) => ({
     ...state,
-    error,
+    error: error.error?.message ? 'Invalid credentials' : 'An error occurred during login',
     isAuthenticated: false,
   })),
 

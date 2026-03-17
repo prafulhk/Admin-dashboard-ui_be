@@ -19,4 +19,13 @@ export class ToastService {
       this.visibleSource.next(false);
     }, 2000);
   }
+
+  showError(message: string) {
+    this.messageSource.next(message);
+    this.visibleSource.next(true);
+
+    setTimeout(() => {
+      this.visibleSource.next(false);
+    }, 2000);
+  }
 }

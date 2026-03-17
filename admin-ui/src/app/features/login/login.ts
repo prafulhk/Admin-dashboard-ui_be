@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as AuthActions from '../../store/auth/auth.actions';
+import { selectAuthState } from '../../store/auth/auth.selectors';
+import { ToastService } from '../../core/services/toast-service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +19,7 @@ export class Login {
   constructor(
     private router: Router,
     private store: Store,
+    private toast: ToastService,
   ) {}
 
   ngOnInit() {
@@ -25,6 +28,12 @@ export class Login {
     if (token) {
       this.router.navigate(['/dashboard']);
     }
+
+    this.store.pipe(select(selectAuthState)).subscribe((state: any) => {
+      if (state.error) {
+        this.toast.showError(state.error); // 🔥 shows "Invalid password"
+      }
+    });
   }
 
   login() {
