@@ -1,6 +1,5 @@
 import { ApplicationConfig, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
@@ -9,13 +8,16 @@ import { usersReducer } from './store/users/users.reducer';
 import { UsersEffects } from './store/users/users.effects';
 import { authReducer } from './store/auth/auth.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './core/interceptor/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideStore({ users: usersReducer, auth: authReducer }), // Ensure 'users' matches your selector key
-    provideEffects([UsersEffects, AuthEffects]), // You can pass the class directly without the array [ ]
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideStore({ users: usersReducer, auth: authReducer }),
+    provideEffects([UsersEffects, AuthEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
