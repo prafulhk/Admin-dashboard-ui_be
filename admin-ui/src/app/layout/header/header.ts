@@ -2,7 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { LayoutService } from '../../core/services/layout-service';
 import { NavigationEnd, Router } from '@angular/router';
 import { ThemeService } from '../../core/services/theme-service';
-
+import { logout } from '../../store/auth/auth.actions';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-header',
   imports: [],
@@ -16,6 +17,7 @@ export class Header {
     private layout: LayoutService,
     public router: Router,
     private theme: ThemeService,
+    private store: Store,
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -45,7 +47,6 @@ export class Header {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    window.location.href = '/login';
+    this.store.dispatch(logout());
   }
 }
