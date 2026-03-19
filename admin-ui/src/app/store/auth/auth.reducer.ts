@@ -6,9 +6,10 @@ import { initialState } from './auth.state';
 export const authReducer = createReducer(
   initialState,
 
-  on(AuthActions.loginSuccess, (state, { token }) => ({
+  on(AuthActions.loginSuccess, (state, { token, role }) => ({
     ...state,
     token,
+    role,
     isAuthenticated: true,
     error: null,
   })),

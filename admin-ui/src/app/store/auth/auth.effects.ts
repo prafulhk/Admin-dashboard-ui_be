@@ -4,6 +4,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../../core/services/auth-service';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 // auth.effects.ts
 @Injectable()
@@ -19,7 +20,8 @@ export class AuthEffects {
         this.authService.login(action).pipe(
           map((res: any) => {
             localStorage.setItem('token', res.token); // 🔥 important
-            return AuthActions.loginSuccess({ token: res.token });
+            const decoded: any = jwtDecode(res.token);
+            return AuthActions.loginSuccess({ token: res.token, role: decoded.role });
           }),
           tap(() => {
             this.router.navigate(['/dashboard']); // 🔥 HERE
@@ -27,6 +29,26 @@ export class AuthEffects {
           catchError((error) => of(AuthActions.loginFailure({ error }))),
         ),
       ),
+    ),
+  );
+
+  restore$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.restoreAuth),
+      map(() => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          return AuthActions.logout();
+        }
+
+        const decoded: any = jwtDecode(token);
+
+        return AuthActions.loginSuccess({
+          token,
+          role: decoded.role,
+        });
+      }),
     ),
   );
 }

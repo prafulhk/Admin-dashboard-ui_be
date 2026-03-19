@@ -12,10 +12,12 @@ import { User, UserService } from '../../core/services/user-service';
 import { Store } from '@ngrx/store';
 import { addUser, loadUsers, deleteUser, updateUser } from '../../store/users/users.actions';
 import { selectAllUsers } from '../../store/users/users.selectors';
+import { selectUserRole } from '../../store/auth/auth.selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Card, Table, Modal, FormsModule, Charts, Toast, Skeleton],
+  imports: [Card, Table, Modal, FormsModule, Charts, Toast, Skeleton, AsyncPipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -42,6 +44,7 @@ export class Dashboard {
     _id: '',
   };
   users: User[] = [];
+  role$: any;
 
   constructor(
     private toast: ToastService,
@@ -52,6 +55,8 @@ export class Dashboard {
 
   ngOnInit() {
     this.isLoading = true;
+    this.role$ = this.store.select(selectUserRole);
+    this.role$.subscribe((role: any) => console.log('User Role:', role));
 
     this.store.dispatch(loadUsers());
 
