@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import * as AuthActions from '../../store/auth/auth.actions';
 import { selectAuthState, selectIsLoading } from '../../store/auth/auth.selectors';
@@ -10,7 +16,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, AsyncPipe],
+  imports: [FormsModule, AsyncPipe, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -18,14 +24,21 @@ export class Login {
   email = '';
   password = '';
   isLoading$!: Observable<boolean>;
+  loginForm!: FormGroup;
 
   constructor(
     private router: Router,
     private store: Store,
     private toast: ToastService,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit() {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+
     const token = localStorage.getItem('token');
     this.isLoading$ = this.store.select(selectIsLoading);
 
@@ -41,13 +54,13 @@ export class Login {
   }
 
   login() {
-    if (this.email && this.password) {
-      this.store.dispatch(
-        AuthActions.login({
-          email: this.email,
-          password: this.password,
-        }),
-      );
-    }
+    if (this.loginForm.invalid) return;
+
+    this.store.dispatch(
+      AuthActions.login({
+        email: this.loginForm.value.email!,
+        password: this.loginForm.value.password!,
+      }),
+    );
   }
 }

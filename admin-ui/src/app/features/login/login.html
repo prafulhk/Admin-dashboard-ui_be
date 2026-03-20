@@ -1,4 +1,5 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+<form [formGroup]="loginForm" class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900"
+    (ngSubmit)="login()">
 
     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow w-80">
 
@@ -8,11 +9,26 @@
 
         <div class="space-y-3">
 
-            <input type="email" placeholder="Email" [(ngModel)]="email" class="w-full border p-2 rounded" />
+            <input type="email" formControlName="email" placeholder="Enter email" class="border p-2 w-full" />
 
-            <input type="password" placeholder="Password" [(ngModel)]="password" class="w-full border p-2 rounded" />
+            @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+            <p class="text-red-500 text-sm">
+                Enter valid email
+            </p>
+            }
 
-            <button (click)="login()" [disabled]="isLoading$ | async" class="bg-blue-500 text-white px-4 py-2 rounded">
+            <input type="password" formControlName="password" placeholder="Enter password" class="border p-2 w-full" />
+
+            @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+            <p class="text-red-500 text-sm">
+                Minimum 6 characters required
+            </p>
+            }
+            <button type="submit" [disabled]="loginForm.invalid || (isLoading$ | async)" class="px-4 py-2 rounded text-white
+         bg-blue-500
+         disabled:bg-gray-400
+         disabled:cursor-not-allowed
+         disabled:opacity-60">
                 @if (isLoading$ | async) {
                 Logging in...
                 } @else {
@@ -24,4 +40,4 @@
 
     </div>
 
-</div>
+</form>
