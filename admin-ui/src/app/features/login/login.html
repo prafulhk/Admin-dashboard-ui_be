@@ -24,6 +24,13 @@
                 Minimum 6 characters required
             </p>
             }
+
+            @if (error$ | async; as error) {
+            <div class="text-red-500 text-sm text-center">
+                {{ error }}
+            </div>
+            }
+
             <button type="submit" [disabled]="loginForm.invalid || (isLoading$ | async)" class="px-4 py-2 rounded text-white
          bg-blue-500
          disabled:bg-gray-400

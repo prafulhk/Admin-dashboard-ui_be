@@ -7,10 +7,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as AuthActions from '../../store/auth/auth.actions';
-import { selectAuthState, selectIsLoading } from '../../store/auth/auth.selectors';
-import { ToastService } from '../../core/services/toast-service';
+import { selectAuthError, selectIsLoading } from '../../store/auth/auth.selectors';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 
@@ -25,11 +24,11 @@ export class Login {
   password = '';
   isLoading$!: Observable<boolean>;
   loginForm!: FormGroup;
+  error$!: Observable<string | null>;
 
   constructor(
     private router: Router,
     private store: Store,
-    private toast: ToastService,
     private fb: FormBuilder,
   ) {}
 
@@ -41,16 +40,11 @@ export class Login {
 
     const token = localStorage.getItem('token');
     this.isLoading$ = this.store.select(selectIsLoading);
+    this.error$ = this.store.select(selectAuthError);
 
     if (token) {
       this.router.navigate(['/dashboard']);
     }
-
-    this.store.pipe(select(selectAuthState)).subscribe((state: any) => {
-      if (state.error) {
-        this.toast.showError(state.error);
-      }
-    });
   }
 
   login() {
