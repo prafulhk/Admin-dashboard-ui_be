@@ -3,18 +3,21 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import * as AuthActions from '../../store/auth/auth.actions';
-import { selectAuthState } from '../../store/auth/auth.selectors';
+import { selectAuthState, selectIsLoading } from '../../store/auth/auth.selectors';
 import { ToastService } from '../../core/services/toast-service';
+import { AsyncPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, AsyncPipe],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
   email = '';
   password = '';
+  isLoading$!: Observable<boolean>;
 
   constructor(
     private router: Router,
@@ -24,6 +27,7 @@ export class Login {
 
   ngOnInit() {
     const token = localStorage.getItem('token');
+    this.isLoading$ = this.store.select(selectIsLoading);
 
     if (token) {
       this.router.navigate(['/dashboard']);
@@ -31,7 +35,7 @@ export class Login {
 
     this.store.pipe(select(selectAuthState)).subscribe((state: any) => {
       if (state.error) {
-        this.toast.showError(state.error); // 🔥 shows "Invalid password"
+        this.toast.showError(state.error);
       }
     });
   }

@@ -11,6 +11,7 @@ export const authReducer = createReducer(
     token,
     role,
     isAuthenticated: true,
+    isLoading: false,
     error: null,
   })),
 
@@ -18,7 +19,16 @@ export const authReducer = createReducer(
     ...state,
     error: error.error?.message ? 'Invalid credentials' : 'An error occurred during login',
     isAuthenticated: false,
+    token: null,
+    role: null,
+    isLoading: false,
   })),
 
   on(AuthActions.logout, () => initialState),
+
+  on(AuthActions.login, (state) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  })),
 );
