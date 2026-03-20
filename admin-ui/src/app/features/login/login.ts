@@ -10,12 +10,12 @@ import {
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../store/auth/auth.actions';
 import { selectAuthError, selectIsLoading } from '../../store/auth/auth.selectors';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, AsyncPipe, ReactiveFormsModule],
+  imports: [FormsModule, AsyncPipe, ReactiveFormsModule, NgClass],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

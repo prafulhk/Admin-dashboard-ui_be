@@ -9,7 +9,12 @@
 
         <div class="space-y-3">
 
-            <input type="email" formControlName="email" placeholder="Enter email" class="border p-2 w-full" />
+            <input type="email" formControlName="email" placeholder="Enter email"
+                class="p-2 w-full border rounded outline-none transition-all duration-200" [ngClass]="{
+    'border-red-500': loginForm.get('email')?.touched && loginForm.get('email')?.invalid,
+    'border-gray-300': !(loginForm.get('email')?.touched && loginForm.get('email')?.invalid),
+    'focus:border-blue-500': true
+  }" />
 
             @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
             <p class="text-red-500 text-sm">
@@ -17,7 +22,12 @@
             </p>
             }
 
-            <input type="password" formControlName="password" placeholder="Enter password" class="border p-2 w-full" />
+            <input type="password" formControlName="password" placeholder="Enter password"
+                class="p-2 w-full border rounded outline-none transition-all duration-200" [ngClass]="{
+    'border-red-500': loginForm.get('password')?.touched && loginForm.get('password')?.invalid,
+    'border-gray-300': !(loginForm.get('password')?.touched && loginForm.get('password')?.invalid),
+    'focus:border-blue-500': true
+  }" />
 
             @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
             <p class="text-red-500 text-sm">
