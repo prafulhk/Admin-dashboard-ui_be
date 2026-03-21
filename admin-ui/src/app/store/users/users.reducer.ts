@@ -14,6 +14,7 @@ export const usersReducer = createReducer(
     ...state,
     users,
     loading: false,
+    loaded: true,
   })),
 
   on(UsersActions.addUser, (state, { user }) => ({
