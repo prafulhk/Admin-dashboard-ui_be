@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { LayoutService } from '../../core/services/layout-service';
 import { NavigationEnd, Router } from '@angular/router';
 import { ThemeService } from '../../core/services/theme-service';
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
   imports: [],
   templateUrl: './header.html',
   styleUrl: './header.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
   title = 'Dashboard';

@@ -1,13 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LayoutService } from '../../core/services/layout-service';
 
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink],
   standalone: true,
   templateUrl: './sidebar.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Sidebar {
   isOpen = true;

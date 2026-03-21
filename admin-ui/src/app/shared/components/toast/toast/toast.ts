@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ToastService } from '../../../../core/services/toast-service';
 import { AsyncPipe } from '@angular/common';
 
@@ -7,6 +7,7 @@ import { AsyncPipe } from '@angular/common';
   imports: [AsyncPipe],
   templateUrl: './toast.html',
   styleUrl: './toast.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Toast {
   message = '';

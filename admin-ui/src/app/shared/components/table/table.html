@@ -4,7 +4,7 @@
 
     <thead class="bg-gray-100">
       <tr>
-        @for (col of columns; track col) {
+        @for (col of columns; track trackByColumn($index, col)) {
         <th (click)="sortData(col)" class="cursor-pointer">
           {{ col }}
           @if (sortColumn === col) {
@@ -25,9 +25,9 @@
 
     <tbody>
 
-      @for (row of paginatedData; track row; let i = $index) {
+      @for (row of paginatedData; track trackByRow($index, row); let i = $index) {
       <tr class="border-t">
-        @for (col of columns; track col) {
+        @for (col of columns; track trackByColumn($index, col)) {
         <td class="px-6 py-4">
           {{ row[col.toLowerCase()] }}
         </td>

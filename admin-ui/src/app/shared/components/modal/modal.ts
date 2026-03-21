@@ -1,5 +1,4 @@
-
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -7,6 +6,7 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './modal.html',
   styleUrl: './modal.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Modal {
   @Input() title = '';
@@ -17,5 +17,4 @@ export class Modal {
   closeModal() {
     this.close.emit();
   }
-
 }

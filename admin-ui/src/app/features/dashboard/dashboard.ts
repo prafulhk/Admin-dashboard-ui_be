@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Card } from '../../shared/components/card/card';
 import { Table } from '../../shared/components/table/table';
 import { Modal } from '../../shared/components/modal/modal';
@@ -20,6 +20,7 @@ import { AsyncPipe } from '@angular/common';
   imports: [Card, Table, Modal, FormsModule, Charts, Toast, Skeleton, AsyncPipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard {
   isModalOpen = false;

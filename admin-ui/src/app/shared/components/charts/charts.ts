@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -7,8 +8,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-import { Skeleton } from '../skeleton/skeleton';
-
 import { Card } from '../card/card';
 
 @Component({
@@ -16,6 +15,7 @@ import { Card } from '../card/card';
   imports: [Card],
   templateUrl: './charts.html',
   styleUrl: './charts.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Charts implements AfterViewInit {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef;

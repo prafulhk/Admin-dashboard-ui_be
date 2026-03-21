@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Sidebar } from './sidebar/sidebar';
 import { Header } from './header/header';
 import { Router, RouterOutlet } from '@angular/router';
-import { Dashboard } from '../features/dashboard/dashboard';
 import { LayoutService } from '../core/services/layout-service';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +10,7 @@ import { CommonModule } from '@angular/common';
   imports: [Sidebar, Header, CommonModule, RouterOutlet],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Layout {
   isOpen = true;

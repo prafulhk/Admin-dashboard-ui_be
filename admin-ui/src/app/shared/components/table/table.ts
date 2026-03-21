@@ -1,5 +1,4 @@
-
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -7,6 +6,7 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './table.html',
   styleUrl: './table.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Table {
   @Input() columns: string[] = [];
@@ -48,7 +48,7 @@ export class Table {
       this.sortDirection = 'asc';
     }
 
-    this.data.sort((a, b) => {
+    this.data = [...this.data].sort((a, b) => {
       const valueA = a[column.toLowerCase()];
       const valueB = b[column.toLowerCase()];
 
@@ -57,5 +57,13 @@ export class Table {
 
       return 0;
     });
+  }
+
+  trackByRow(index: number, row: any) {
+    return row._id || index;
+  }
+
+  trackByColumn(index: number, col: string) {
+    return col;
   }
 }

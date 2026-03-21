@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormBuilder,
@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
   imports: [FormsModule, AsyncPipe, ReactiveFormsModule, NgClass],
   templateUrl: './login.html',
   styleUrl: './login.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
   email = '';
