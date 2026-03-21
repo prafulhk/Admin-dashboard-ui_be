@@ -18,9 +18,15 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
-      { path: 'dashboard', component: Dashboard },
-      { path: 'users', component: Users },
-      { path: 'settings', component: Settings },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
+      },
+      { path: 'users', loadComponent: () => import('./features/users/users').then((m) => m.Users) },
+      {
+        path: 'settings',
+        loadComponent: () => import('./features/settings/settings').then((m) => m.Settings),
+      },
     ],
   },
 
