@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Activity = require("../models/Activity");
 
 // REGISTER
 exports.register = async (req, res) => {
@@ -18,6 +19,10 @@ exports.register = async (req, res) => {
     });
 
     await user.save();
+    await Activity.create({
+      action: "User Registered",
+      user: user.name,
+    });
 
     res.status(201).json({ message: "Registered successfully" });
   } catch (err) {
@@ -41,7 +46,10 @@ exports.login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1d" },
     );
-
+    await Activity.create({
+      action: "User Logged In",
+      user: user.name,
+    });
     res.json({ token });
   } catch (err) {
     res.status(500).json(err);

@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const authMiddleware = require("../middleware/authMiddleware");
 const roleMiddleware = require("../middleware/roleMiddleware");
+const Activity = require("../models/Activity");
 
 router.get(
   "/",
@@ -18,6 +19,10 @@ router.get(
 router.post("/", authMiddleware, roleMiddleware("admin"), async (req, res) => {
   const user = new User(req.body);
   await user.save();
+  await Activity.create({
+    action: "User Created",
+    user: user.name,
+  });
   res.json(user);
 });
 
@@ -29,7 +34,10 @@ router.put(
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-
+    await Activity.create({
+      action: "User Edited",
+      user: user.name,
+    });
     res.json(user);
   },
 );
@@ -40,6 +48,10 @@ router.delete(
   roleMiddleware("admin"),
   async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
+    await Activity.create({
+      action: "User Deleted",
+      user: req.user.name,
+    });
     res.json({ message: "User deleted" });
   },
 );

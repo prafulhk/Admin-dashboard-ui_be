@@ -1,0 +1,15 @@
+<div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+    <h3 class="text-lg font-semibold mb-3">Activity Log</h3>
+
+    <div class="space-y-2 max-h-64 overflow-y-auto">
+        <!-- {{activities.length}} activities found -->
+        @for (act of activities; track act._id) {
+        <div class="text-sm border-b pb-1">
+            <span class="font-medium">{{ act.action }}</span>
+            <div class="text-gray-500 text-xs">
+                {{ act.user }} • {{ act.timestamp }}
+            </div>
+        </div>
+        }
+    </div>
+</div>

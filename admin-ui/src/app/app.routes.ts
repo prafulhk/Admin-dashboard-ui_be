@@ -27,6 +27,11 @@ export const routes: Routes = [
         path: 'settings',
         loadComponent: () => import('./features/settings/settings').then((m) => m.Settings),
       },
+      {
+        path: 'activities',
+        loadComponent: () =>
+          import('./features/activity-log/activity-log').then((m) => m.ActivityLog),
+      },
     ],
   },
 
