@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Layout } from './layout';
+import { provideMockStore } from '@ngrx/store/testing';
+import { provideRouter } from '@angular/router';
 
 describe('Layout', () => {
   let component: Layout;
@@ -8,9 +10,12 @@ describe('Layout', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Layout]
-    })
-    .compileComponents();
+      imports: [Layout],
+      providers: [
+        provideRouter([]),
+        provideMockStore({}), // ✅ mock ngrx store
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Layout);
     component = fixture.componentInstance;
