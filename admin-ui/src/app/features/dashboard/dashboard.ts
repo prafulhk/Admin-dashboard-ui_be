@@ -46,6 +46,9 @@ export class Dashboard {
   };
   users: User[] = [];
   role$: any;
+  adminCount = 0;
+  activeUsersCount = 0;
+  totalUsers = 0;
 
   constructor(
     private toast: ToastService,
@@ -63,10 +66,14 @@ export class Dashboard {
 
     this.store.select(selectAllUsers).subscribe((users) => {
       this.users = users;
-      console.log('this.users:', this.users);
       this.filteredUsers = users;
+      this.totalUsers = users.length;
+      this.adminCount = users.filter((u) => u.role.toLowerCase() === 'Admin'.toLowerCase()).length;
+      this.activeUsersCount = users.filter(
+        (u) => u.status.toLowerCase() === 'Active'.toLowerCase(),
+      ).length;
+
       this.roleChartData = this.calculateRoleStats(users);
-      console.log(this.roleChartData);
       this.isLoading = false;
       this.cdr.detectChanges();
     });
