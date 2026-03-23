@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://admin-dashboard-ui-be.onrender.com/api',
 };
