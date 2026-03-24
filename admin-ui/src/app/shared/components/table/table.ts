@@ -66,4 +66,8 @@ export class Table {
   trackByColumn(index: number, col: string) {
     return col;
   }
+
+  ngOnChanges() {
+    this.currentPage = 1;
+  }
 }

@@ -58,6 +58,12 @@
       Page {{ currentPage }} of {{ totalPages }}
     </span>
 
+    <select [(ngModel)]="itemsPerPage" class="border p-1 text-sm">
+      <option [value]="2">2</option>
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+    </select>
+
     <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 border rounded">
       Next
     </button>
