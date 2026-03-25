@@ -1,109 +1,74 @@
-Angular Admin Dashboard
+# 🚀 Admin Dashboard (Angular + Node + MongoDB)
 
-A modern Admin Dashboard built with Angular featuring reusable components, charts, user management, and authentication.
+A full-stack Admin Dashboard application with authentication, user management, and analytics.
 
-Live Demo
+---
 
-Deployed on Vercel
+## 🌐 Live Demo
 
-https://admin-dashboard-knuf.vercel.app/
+dashboard.prafhulk.dev
 
-Dashboard analytics with charts
+---
 
-User management (Add / Edit / Delete)
+## 🛠 Tech Stack
 
-Reusable table component
+### Frontend
 
-Pagination and sorting
+- Angular (Standalone Components)
+- NgRx (State Management)
+- Tailwind CSS
 
-Search filter
+### Backend
 
-Modal dialogs
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
 
-Skeleton loading UI
+---
 
-Authentication with route guards
+## ✨ Features
 
-Responsive layout
+- 🔐 Authentication (Login)
+- 🛡 Route Protection (Auth Guard)
+- 🔄 HTTP Interceptor (Token + Error Handling)
+- 👥 User Management (Add / Edit / Delete)
+- 📊 Dashboard Analytics
+- 🔍 Search & Filtering
+- 📄 Pagination
+- ⚡ Lazy Loading
+- 🔔 Toast Notifications
+- 💀 Skeleton Loading UI
 
-Dark mode support
+---
 
-Tech Stack
+## 📂 Project Structure
 
-Angular 21
+admin-ui/
+admin-be
 
-RxJS
+## ⚙️ Setup Instructions
 
-Tailwind CSS
+### Frontend
 
-Chart.js
-
-TypeScript
-
-Project Structure
-src/
-├── app/
-│ ├── core/
-│ │ ├── services/
-│ │ ├── guards/
-│ │ └── models/
-│ ├── features/
-│ │ ├── dashboard/
-│ │ ├── users/
-│ │ └── settings/
-│ ├── shared/
-│ │ ├── components/
-│ │ │ ├── table
-│ │ │ ├── card
-│ │ │ ├── charts
-│ │ │ ├── modal
-│ │ │ └── skeleton
-│ └── layout/
-Installation
-
-Clone the repository:
-
-git clone https://github.com/yourusername/Admin-dashboard.git
-
-Install dependencies:
-
+cd admin-ui
 npm install
-
-Run the development server:
-
 ng serve
 
-Open:
+### Backend
 
-http://localhost:4200
-Build
-ng build
+cd admin-be
+npm install
+node server.js
 
-Production build will be generated in:
+## Key Highlights
 
-dist/
-Deployment
+Clean architecture using Angular standalone components
+Centralized API handling using HTTP interceptor
+State management using NgRx
+Production-ready UI with loading & error handling
 
-This project is deployed using Vercel.
+## 📸 Screenshots
 
-Every push to GitHub automatically triggers a new deployment.
+## 👨‍💻 Author
 
-Future Improvements
-
-Backend API integration
-
-Role based access control
-
-Advanced table filtering
-
-Export users to CSV
-
-Notifications system
-
-Author
-
-Praful Kusugal
-
-Screenshots
-
-(Add screenshots of dashboard here)
+Praful Kusugalla

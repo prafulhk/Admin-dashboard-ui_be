@@ -9,6 +9,6 @@ export class ActivityService {
   constructor(private http: HttpClient) {}
 
   getActivities() {
-    return this.http.get<any[]>(`${environment.apiUrl}/activities`);
+    return this.http.get<any[]>(`${environment.apiUrl}/getActivities`);
   }
 }
