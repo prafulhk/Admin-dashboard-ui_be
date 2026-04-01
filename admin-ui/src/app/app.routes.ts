@@ -4,6 +4,7 @@ import { Dashboard } from './features/dashboard/dashboard';
 import { Settings } from './features/settings/settings';
 import { Users } from './features/users/users';
 import { Layout } from './layout/layout';
+import { roleGuard } from './core/guards/role-guard';
 
 export const routes: Routes = [
   {
@@ -22,9 +23,16 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
-      { path: 'users', loadComponent: () => import('./features/users/users').then((m) => m.Users) },
+      {
+        path: 'users',
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] },
+        loadComponent: () => import('./features/users/users').then((m) => m.Users),
+      },
       {
         path: 'settings',
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] },
         loadComponent: () => import('./features/settings/settings').then((m) => m.Settings),
       },
       {
