@@ -23,29 +23,29 @@ import { AsyncPipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard {
-  isModalOpen = false;
-  isEditMode = false;
-  editIndex = -1;
-  deleteIndex = -1;
-  deleteId: string = '';
-  isDeleteModalOpen = false;
+  // isModalOpen = false;
+  // isEditMode = false;
+  // editIndex = -1;
+  // deleteIndex = -1;
+  // deleteId: string = '';
+  // isDeleteModalOpen = false;
   pieChartLabel = ['Admin', 'Editor', 'User'];
   lineChartLabel = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
   toastTimer: any;
-  columns = ['Name', 'Email', 'Role', 'Status'];
-  searchText = '';
+  // columns = ['Name', 'Email', 'Role', 'Status'];
+  // searchText = '';
   isLoading = false;
-  filteredUsers: User[] = [];
+  // filteredUsers: User[] = [];
   roleChartData: number[] = [0, 0, 0];
-  newUser = {
-    name: '',
-    email: '',
-    role: 'User',
-    status: 'Active',
-    _id: '',
-  };
+  // newUser = {
+  //   name: '',
+  //   email: '',
+  //   role: 'User',
+  //   status: 'Active',
+  //   _id: '',
+  // };
   users: User[] = [];
-  role$: any;
+  // role$: any;
   adminCount = 0;
   activeUsersCount = 0;
   totalUsers = 0;
@@ -59,14 +59,14 @@ export class Dashboard {
 
   ngOnInit() {
     this.isLoading = true;
-    this.role$ = this.store.select(selectUserRole);
-    this.role$.subscribe((role: any) => console.log('User Role:', role));
+    // this.role$ = this.store.select(selectUserRole);
+    // this.role$.subscribe((role: any) => console.log('User Role:', role));
 
     this.store.dispatch(loadUsers());
 
     this.store.select(selectAllUsers).subscribe((users) => {
       this.users = users;
-      this.filteredUsers = users;
+      // this.filteredUsers = users;
       this.totalUsers = users.length;
       this.adminCount = users.filter((u) => u.role.toLowerCase() === 'Admin'.toLowerCase()).length;
       this.activeUsersCount = users.filter(
@@ -79,75 +79,75 @@ export class Dashboard {
     });
   }
 
-  openModal() {
-    this.isEditMode = false;
+  // openModal() {
+  //   this.isEditMode = false;
 
-    this.newUser = {
-      name: '',
-      email: '',
-      role: 'User',
-      status: 'Active',
-      _id: '',
-    };
+  //   this.newUser = {
+  //     name: '',
+  //     email: '',
+  //     role: 'User',
+  //     status: 'Active',
+  //     _id: '',
+  //   };
 
-    this.isModalOpen = true;
-  }
+  //   this.isModalOpen = true;
+  // }
 
-  closeModal() {
-    this.isModalOpen = false;
-  }
+  // closeModal() {
+  //   this.isModalOpen = false;
+  // }
 
-  editUser(user: any, index: number) {
-    this.newUser = { ...user };
+  // editUser(user: any, index: number) {
+  //   this.newUser = { ...user };
 
-    this.isEditMode = true;
-    this.editIndex = index;
+  //   this.isEditMode = true;
+  //   this.editIndex = index;
 
-    this.isModalOpen = true;
-  }
+  //   this.isModalOpen = true;
+  // }
 
-  saveUser() {
-    if (this.isEditMode) {
-      this.userService.updateUser(this.newUser._id, this.newUser).subscribe((updatedUser) => {
-        if (updatedUser) {
-          this.store.dispatch(
-            updateUser({
-              index: this.editIndex,
-              user: updatedUser,
-            }),
-          );
-          this.toast.show('User Updated');
-        } else {
-          this.toast.show('Failed to update user');
-        }
-      });
-    } else {
-      this.userService.addUser(this.newUser).subscribe((createdUser) => {
-        if (createdUser) {
-          this.store.dispatch(addUser({ user: createdUser }));
-          this.toast.show('User Added');
-        } else {
-          this.toast.show('Failed to add user');
-        }
-      });
-    }
+  // saveUser() {
+  //   if (this.isEditMode) {
+  //     this.userService.updateUser(this.newUser._id, this.newUser).subscribe((updatedUser) => {
+  //       if (updatedUser) {
+  //         this.store.dispatch(
+  //           updateUser({
+  //             index: this.editIndex,
+  //             user: updatedUser,
+  //           }),
+  //         );
+  //         this.toast.show('User Updated');
+  //       } else {
+  //         this.toast.show('Failed to update user');
+  //       }
+  //     });
+  //   } else {
+  //     this.userService.addUser(this.newUser).subscribe((createdUser) => {
+  //       if (createdUser) {
+  //         this.store.dispatch(addUser({ user: createdUser }));
+  //         this.toast.show('User Added');
+  //       } else {
+  //         this.toast.show('Failed to add user');
+  //       }
+  //     });
+  //   }
 
-    this.closeModal();
-  }
+  //   this.closeModal();
+  // }
 
-  confirmDelete(event: any) {
-    this.deleteIndex = event.index;
-    this.deleteId = event.row._id;
-    this.isDeleteModalOpen = true;
-  }
+  // confirmDelete(event: any) {
+  //   this.deleteIndex = event.index;
+  //   this.deleteId = event.row._id;
+  //   this.isDeleteModalOpen = true;
+  // }
 
-  deleteUser() {
-    this.userService.deleteUser(this.deleteId).subscribe(() => {
-      this.store.dispatch(deleteUser({ index: this.deleteIndex }));
-      this.isDeleteModalOpen = false;
-      this.toast.show('User Deleted');
-    });
-  }
+  // deleteUser() {
+  //   this.userService.deleteUser(this.deleteId).subscribe(() => {
+  //     this.store.dispatch(deleteUser({ index: this.deleteIndex }));
+  //     this.isDeleteModalOpen = false;
+  //     this.toast.show('User Deleted');
+  //   });
+  // }
 
   calculateRoleStats(users: User[]) {
     const roles = { Admin: 0, Editor: 0, User: 0 };
@@ -171,15 +171,15 @@ export class Dashboard {
     return this.users.filter((user) => user.status === 'Active').length;
   }
 
-  onSearch() {
-    const search = this.searchText.toLowerCase();
+  // onSearch() {
+  //   const search = this.searchText.toLowerCase();
 
-    this.filteredUsers = this.users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(search) ||
-        user.email.toLowerCase().includes(search) ||
-        user.role.toLowerCase().includes(search) ||
-        user.status.toLowerCase().includes(search),
-    );
-  }
+  //   this.filteredUsers = this.users.filter(
+  //     (user) =>
+  //       user.name.toLowerCase().includes(search) ||
+  //       user.email.toLowerCase().includes(search) ||
+  //       user.role.toLowerCase().includes(search) ||
+  //       user.status.toLowerCase().includes(search),
+  //   );
+  // }
 }
