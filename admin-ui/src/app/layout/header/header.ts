@@ -1,15 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output, Signal } from '@angular/core';
 import { LayoutService } from '../../core/services/layout-service';
 import { NavigationEnd, Router } from '@angular/router';
 import { ThemeService } from '../../core/services/theme-service';
 import { logout } from '../../store/auth/auth.actions';
 import { Store } from '@ngrx/store';
+import { filter, map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-header',
   imports: [],
@@ -18,40 +14,28 @@ import { Store } from '@ngrx/store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
-  title = 'Dashboard';
-  @Output() toggleMobileSidebar = new EventEmitter<void>();
-  constructor(
-    private layout: LayoutService,
-    public router: Router,
-    private theme: ThemeService,
-    private store: Store,
-    private cdr: ChangeDetectorRef,
-  ) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
+  toggleMobileSidebar = output<void>();
+  router = inject(Router);
+  layout = inject(LayoutService);
+  theme = inject(ThemeService);
+  store = inject(Store);
+
+  title: Signal<string> = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => {
         const url = event.urlAfterRedirects;
-        console.log('url:', url);
 
-        if (url.includes('dashboard')) {
-          this.title = 'Dashboard';
-        }
+        if (url.includes('dashboard')) return 'Dashboard';
+        if (url.includes('users')) return 'Users';
+        if (url.includes('settings')) return 'Settings';
+        if (url.includes('activities')) return 'Activities';
 
-        if (url.includes('users')) {
-          this.title = 'Users';
-        }
-
-        if (url.includes('settings')) {
-          this.title = 'Settings';
-        }
-
-        if (url.includes('activities')) {
-          this.title = 'Activities';
-        }
-
-        this.cdr.markForCheck();
-      }
-    });
-  }
+        return 'Dashboard';
+      }),
+    ),
+    { initialValue: 'Dashboard' },
+  );
 
   toggleSidebar() {
     this.layout.toggleSidebar();
