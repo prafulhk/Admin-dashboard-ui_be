@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { Card } from '../../shared/components/card/card';
 import { FormsModule } from '@angular/forms';
 import { Charts } from '../../shared/components/charts/charts';
@@ -7,44 +7,31 @@ import { User } from '../../core/services/user-service';
 import { Store } from '@ngrx/store';
 import { loadUsers } from '../../store/users/users.actions';
 import { selectAllUsers } from '../../store/users/users.selectors';
-import { map, Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Card, FormsModule, Charts, Skeleton, AsyncPipe],
+  imports: [Card, FormsModule, Charts, Skeleton],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard {
+  store = inject(Store);
   pieChartLabel = ['Admin', 'Editor', 'User'];
   lineChartLabel = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
   toastTimer: any;
-  isLoading = false;
-  roleChartData: number[] = [0, 0, 0];
-  users$!: Observable<User[]>;
-  adminCount$: Observable<number> = new Observable();
-  activeUsersCount$: Observable<number> = new Observable();
-
-  constructor(private store: Store) {}
+  isLoading = computed(() => this.users().length === 0);
+  users$ = this.store.select(selectAllUsers);
+  users = toSignal(this.users$, { initialValue: [] });
+  adminCount = computed(() => this.users().filter((u) => u.role?.toLowerCase() === 'admin').length);
+  activeUsersCount = computed(
+    () => this.users().filter((u) => u.status?.toLowerCase() === 'active').length,
+  );
+  roleChartData = computed(() => this.calculateRoleStats(this.users()));
 
   ngOnInit() {
-    this.isLoading = true;
     this.store.dispatch(loadUsers());
-    this.store.select(selectAllUsers).subscribe((users) => {
-      this.users$ = this.store.select(selectAllUsers);
-      this.adminCount$ = this.users$.pipe(
-        map((users) => users.filter((u) => u.role.toLowerCase() === 'Admin'.toLowerCase()).length),
-      );
-      this.activeUsersCount$ = this.users$.pipe(
-        map(
-          (users) => users.filter((u) => u.status.toLowerCase() === 'Active'.toLowerCase()).length,
-        ),
-      );
-      this.roleChartData = this.calculateRoleStats(users);
-      this.isLoading = false;
-    });
   }
 
   calculateRoleStats(users: User[]) {

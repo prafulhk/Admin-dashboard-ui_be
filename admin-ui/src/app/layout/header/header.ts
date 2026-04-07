@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { LayoutService } from '../../core/services/layout-service';
 import { NavigationEnd, Router } from '@angular/router';
 import { ThemeService } from '../../core/services/theme-service';
@@ -19,10 +25,12 @@ export class Header {
     public router: Router,
     private theme: ThemeService,
     private store: Store,
+    private cdr: ChangeDetectorRef,
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects;
+        console.log('url:', url);
 
         if (url.includes('dashboard')) {
           this.title = 'Dashboard';
@@ -35,6 +43,12 @@ export class Header {
         if (url.includes('settings')) {
           this.title = 'Settings';
         }
+
+        if (url.includes('activities')) {
+          this.title = 'Activities';
+        }
+
+        this.cdr.markForCheck();
       }
     });
   }
