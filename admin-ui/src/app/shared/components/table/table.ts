@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -67,7 +74,9 @@ export class Table {
     return col;
   }
 
-  ngOnChanges() {
-    this.currentPage = 1;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.currentPage = 1;
+    }
   }
 }
