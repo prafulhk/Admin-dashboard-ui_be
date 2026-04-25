@@ -4,10 +4,12 @@ import { delay, Observable, of } from 'rxjs';
 import { environment } from '../../../../environment';
 
 export interface User {
+  _id: string;
   name: string;
   email: string;
   role: string;
   status: string;
+  password?: string;
 }
 
 @Injectable({

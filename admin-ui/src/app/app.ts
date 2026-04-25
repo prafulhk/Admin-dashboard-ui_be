@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Layout } from './layout/layout';
 import { ThemeService } from './core/services/theme-service';
+import { SocketService } from './core/services/socket-service';
 import { Toast } from './shared/components/toast/toast/toast';
 import { Store } from '@ngrx/store';
 import * as AuthActions from './store/auth/auth.actions';
@@ -17,6 +18,7 @@ export class App {
   constructor(
     private theme: ThemeService,
     private store: Store,
+    private socketService: SocketService,
   ) {}
 
   ngOnInit() {
